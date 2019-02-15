@@ -1,2 +1,3 @@
 # mc_lmdb
-A LMDB wrapper in Nim.
+
+A Nim Wrapper for LMDB.
