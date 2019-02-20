@@ -1,1 +1,3 @@
-type Value* {.header: "lmdb.h", importc: "MDB_val".} = object
+type
+    CValue {.header: "lmdb.h", importc: "MDB_val".} = object
+    Value* = ptr CValue

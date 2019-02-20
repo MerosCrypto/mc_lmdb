@@ -7,30 +7,30 @@ type Database* = cuint
 
 {.push header: "lmdb.h".}
 proc c_mdb_open(
-    tx: ptr Transaction,
+    tx: Transaction,
     name: cstring,
     flags: cuint,
     db: ptr Database
 ): cint {.importc: "mdb_dbi_open".}
 
 proc c_mdb_put(
-    tx: ptr Transaction,
+    tx: Transaction,
     db: Database,
-    key: ptr Value,
-    val: ptr Value,
+    key: Value,
+    val: Value,
     flags: cuint
 ): cint {.importc: "mdb_put".}
 
 proc c_mdb_del(
-    tx: ptr Transaction,
+    tx: Transaction,
     db: Database,
-    key: ptr Value,
-    val: ptr Value,
+    key: Value,
+    val: Value,
     flags: cuint
 ): cint {.importc: "mdb_del".}
 
 proc c_mdb_close(
-    env: ptr Environment,
+    env: Environment,
     db: Database
 ) {.importc: "mdb_dbi_close".}
 {.pop.}

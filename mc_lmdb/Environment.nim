@@ -1,20 +1,22 @@
 import Mode
 
-{.push header: "lmdb.h".}
-type Environment* {.importc: "MDB_env".} = object
+type
+    CEnvironment {.header: "lmdb.h", importc: "MDB_env".} = object
+    Environment* = ptr CEnvironment
 
+{.push header: "lmdb.h".}
 proc c_mdb_env_create(
-    env: ptr ptr Environment
+    env: ptr Environment
 ): cint {.importc: "mdb_env_create".}
 
 proc c_mdb_env_open(
-    env: ptr Environment,
+    env: Environment,
     path: cstring,
     flags: cuint,
     mode: Mode
 ): cint {.importc: "mdb_env_open".}
 
 proc c_mdb_env_close(
-    env: ptr Environment
+    env: Environment
 ) {.importc: "mdb_env_close".}
 {.pop.}

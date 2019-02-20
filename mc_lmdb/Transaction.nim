@@ -1,20 +1,25 @@
 import Environment
 
-{.push header: "lmdb.h".}
-type Transaction* {.importc: "MDB_txn".} = object
+type
+    CTransaction {.header: "lmdb.h", importc: "MDB_txn".} = object
+    Transaction* = ptr CTransaction
 
+{.push header: "lmdb.h".}
 proc c_mdb_txn_begin(
-    env: ptr Environment,
-    parent: ptr Transaction,
+    env: Environment,
+    parent: Transaction,
     flags: cuint,
-    ret: ptr ptr Transaction
+    ret: ptr Transaction
 ): cint {.importc: "mdb_txn_begin".}
 
 proc c_mdb_txn_commit(
-    tx: ptr Transaction
+    tx: Transaction
 ): cint {.importc: "mdb_txn_commit".}
 
 proc c_mdb_txn_abort(
-    tx: ptr Transaction
+    tx: Transaction
 ) {.importc: "mdb_txn_abort".}
 {.pop.}
+
+proc newTransaction(): Transaction =
+    discard

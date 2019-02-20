@@ -17,7 +17,7 @@ const currentFolder = currentSourcePath().substr(0, currentSourcePath().len - 12
 
 #Define a type that includes an environment and a database.
 type LMDB* = ref object of RootObj
-    env: ptr Environment
+    env: Environment
     db: Database
 
 #Opens a database at the path, creating one if it doesn't already exist.
