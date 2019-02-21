@@ -1,6 +1,6 @@
 #Value object.
-import objects/ValueObject
-export ValueObject.Value
+import objects/LMDBValueObject
+export LMDBValueObject.Value
 
 #Constructor.
 proc newValue*(valueArg: string): Value =

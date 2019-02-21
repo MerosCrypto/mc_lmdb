@@ -6,28 +6,32 @@ const lmdbFolder = currentSourcePath().substr(0, currentSourcePath().len - 12) &
 {.passL: lmdbFolder & "liblmdb.a".}
 
 #Mode object.
-import mc_lmdb/objects/ModeObject
-export ModeObject.Mode
+import mc_lmdb/objects/LMDBModeObject
+export LMDBModeObject.Mode
+
+#Error lib.
+import mc_lmdb/LMDBError
+export LMDBError.LMDBError
 
 #Wrapper files.
-import mc_lmdb/Environment
-import mc_lmdb/Database
+import mc_lmdb/LMDBEnvironment
+import mc_lmdb/LMDBDatabase
 
 #Provide manual access to the Environment constructor/flags.
-export Environment.newEnvironment
-export Environment.EnvironmentFlags
-export Environment.or
+export LMDBEnvironment.newEnvironment
+export LMDBEnvironment.EnvironmentFlags
+export LMDBEnvironment.or
 
 #Provide manual access to the Database constructor/flags.
-export Database.newDatabase
-export Database.DatabaseFlags
-export Database.PutFlags
-export Database.or
+export LMDBDatabase.newDatabase
+export LMDBDatabase.DatabaseFlags
+export LMDBDatabase.PutFlags
+export LMDBDatabase.or
 
-#Export get, put, and delete.
-export Database.get
-export Database.put
-export Database.delete
+#Export put, get, and delete.
+export LMDBDatabase.put
+export LMDBDatabase.get
+export LMDBDatabase.delete
 
 #LMDB object.
 import mc_lmdb/objects/LMDBObject
@@ -42,5 +46,6 @@ proc newLMDB*(path: string): LMDB =
 
 #Closes an Environment and Database.
 proc close*(lmdb: LMDB) =
-    Database.close(lmdb)
+    #Use the file name to prevent this function from calling itself.
+    LMDBDatabase.close(lmdb)
     lmdb.env.close()

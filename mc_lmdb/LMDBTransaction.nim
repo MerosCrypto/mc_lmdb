@@ -1,17 +1,17 @@
 #Error lib.
-import Error
+import LMDBError
 
 #Environment wrapper.
-import Environment
+import LMDBEnvironment
 
 #LMDB object.
 import objects/LMDBObject
 
 #transaction object/flags.
-import objects/TransactionObject
-export TransactionObject.Transaction
-export TransactionObject.TransactionFlags
-export TransactionObject.or
+import objects/LMDBTransactionObject
+export LMDBTransactionObject.Transaction
+export LMDBTransactionObject.TransactionFlags
+export LMDBTransactionObject.or
 
 #C procs.
 {.push header: "lmdb.h".}

@@ -1,14 +1,14 @@
 #Error lib.
-import Error
+import LMDBError
 
 #Mode object (there is no wrapper file).
-import objects/ModeObject
+import objects/LMDBModeObject
 
 #Environment object/flags.
-import objects/EnvironmentObject
-export EnvironmentObject.Environment
-export EnvironmentObject.EnvironmentFlags
-export EnvironmentObject.or
+import objects/LMDBEnvironmentObject
+export LMDBEnvironmentObject.Environment
+export LMDBEnvironmentObject.EnvironmentFlags
+export LMDBEnvironmentObject.or
 
 #C procs.
 {.push header: "lmdb.h".}

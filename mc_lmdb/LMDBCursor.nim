@@ -1,9 +1,9 @@
-import Value
-import Transaction
-import Database
+import LMDBValue
+import LMDBTransaction
+import LMDBDatabase
 
-import objects/CursorObject
-export CursorObject.Cursor
+import objects/LMDBCursorObject
+export LMDBCursorObject.Cursor
 
 {.push header: "lmdb.h".}
 proc c_mdb_cursor_open(

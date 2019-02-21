@@ -1,21 +1,21 @@
 #Error lib.
-import Error
+import LMDBError
 
 #Wrapper files.
-import Environment
+import LMDBEnvironment
 
-import Value
-import Transaction
+import LMDBValue
+import LMDBTransaction
 
 #LMDB object.
 import objects/LMDBObject
 
 #Database object/flags.
-import objects/DatabaseObject
-export DatabaseObject.Database
-export DatabaseObject.DatabaseFlags
-export DatabaseObject.PutFlags
-export DatabaseObject.or
+import objects/LMDBDatabaseObject
+export LMDBDatabaseObject.Database
+export LMDBDatabaseObject.DatabaseFlags
+export LMDBDatabaseObject.PutFlags
+export LMDBDatabaseObject.or
 
 #C procs.
 {.push header: "lmdb.h".}
