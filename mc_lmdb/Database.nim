@@ -21,7 +21,7 @@ export DatabaseObject.or
 {.push header: "lmdb.h".}
 proc c_mdb_open(
     tx: Transaction,
-    name: cstring,
+    name: ptr char,
     flags: cuint,
     db: ptr Database
 ): cint {.importc: "mdb_dbi_open".}
@@ -57,16 +57,15 @@ proc c_mdb_close(
 #Constructor.
 proc newDatabase*(
     lmdb: LMDB,
-    name: string,
     flags: uint = uint(DatabaseFlags.Create),
 ) =
     var
         #Create a TX to open the DB with.
-        tx: Transaction = lmdb.newTransaction(uint(TransactionFlags.ReadOnly))
+        tx: Transaction = lmdb.newTransaction()
         #Open the Database.
         err: cint = c_mdb_open(
             tx,
-            name,
+            nil,
             cuint(flags),
             addr lmdb.db
         )
@@ -106,7 +105,7 @@ proc get*(
 ): string =
     var
         #Create a TX to grab the value with.
-        tx: Transaction = lmdb.newTransaction()
+        tx: Transaction = lmdb.newTransaction(uint(TransactionFlags.ReadOnly))
         #Create a Value of the key.
         key: Value = newValue(keyArg)
         #Create a Value for the value.

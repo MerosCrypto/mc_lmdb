@@ -1,3 +1,10 @@
+#Include the LMDB header's folder.
+const lmdbFolder = currentSourcePath().substr(0, currentSourcePath().len - 12) & "LMDB/"
+{.passC: "-I " & lmdbFolder.}
+
+#Link with the static library.
+{.passL: lmdbFolder & "liblmdb.a".}
+
 #Mode object.
 import mc_lmdb/objects/ModeObject
 export ModeObject.Mode
@@ -26,21 +33,12 @@ export Database.delete
 import mc_lmdb/objects/LMDBObject
 export LMDBObject.LMDB
 
-#Include the LMDB headers and compile the relevant source files.
-const currentFolder = currentSourcePath().substr(0, currentSourcePath().len - 12)
-{.passC: "-I" & currentFolder & "LMDB/".}
-{.compile: currentFolder & "LMDB/mdb.c".}
-{.compile: currentFolder & "LMDB/midl.c".}
-
 #Opens a database at the path, creating one if it doesn't already exist.
-proc newLMDB*(
-    path: string,
-    name: string
-): LMDB =
+proc newLMDB*(path: string): LMDB =
     result = LMDB(
         env: newEnvironment(path)
     )
-    result.newDatabase(name)
+    result.newDatabase()
 
 #Closes an Environment and Database.
 proc close*(lmdb: LMDB) =

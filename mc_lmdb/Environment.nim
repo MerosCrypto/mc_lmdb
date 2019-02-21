@@ -32,7 +32,7 @@ proc c_mdb_env_close(
 proc newEnvironment*(
     path: string,
     flags: uint = EnvironmentFlags.NoSubDir or EnvironmentFlags.NoTLS or EnvironmentFlags.NoReadAhead,
-    mode: uint = 600
+    mode: uint = 0o666
 ): Environment =
     #Create the Environment.
     var err: cint = c_mdb_env_create(addr result)

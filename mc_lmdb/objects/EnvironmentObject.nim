@@ -1,6 +1,6 @@
 type
     #C struct.
-    CEnvironment* {.header: "lmdb.h", importc: "MDB_env".} = object
+    CEnvironment* {.header: "lmdb.h", importc: "MDB_env", incompleteStruct.} = object
 
     #Pointer.
     Environment* = ptr CEnvironment
