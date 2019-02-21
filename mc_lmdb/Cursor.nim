@@ -3,7 +3,7 @@ import Transaction
 import Database
 
 import objects/CursorObject
-export Cursor
+export CursorObject.Cursor
 
 {.push header: "lmdb.h".}
 proc c_mdb_cursor_open(

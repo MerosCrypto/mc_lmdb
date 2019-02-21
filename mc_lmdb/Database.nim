@@ -4,7 +4,7 @@ import Value
 import Transaction
 
 import objects/DatabaseObject
-export Database
+export DatabaseObject.Database
 
 {.push header: "lmdb.h".}
 proc c_mdb_open(

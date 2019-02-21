@@ -8,7 +8,7 @@ import objects/LMDBObject
 
 #transaction object file.
 import objects/TransactionObject
-export Transaction
+export TransactionObject.Transaction
 
 #Transaction flags.
 const ReadOnly: cuint = 0x20000

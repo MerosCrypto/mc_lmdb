@@ -1,6 +1,6 @@
 type
     #C struct.
-    CCursor {.header: "lmdb.h", importc: "MDB_cursor".} = object
+    CCursor* {.header: "lmdb.h", importc: "MDB_cursor".} = object
 
     #Pointer.
     Cursor* = ptr CCursor

@@ -1,6 +1,6 @@
 #Value object.
 import objects/ValueObject
-export Value
+export ValueObject.Value
 
 #Constructor.
 proc newValue*(valueArg: string): Value =

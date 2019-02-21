@@ -1,7 +1,7 @@
 import objects/ModeObject
 
 import objects/EnvironmentObject
-export Environment
+export EnvironmentObject.Environment
 
 {.push header: "lmdb.h".}
 proc c_mdb_env_create(

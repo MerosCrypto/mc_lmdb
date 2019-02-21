@@ -7,8 +7,8 @@ import mc_lmdb/Database
 import mc_lmdb/Cursor
 
 #LMDB object.
-import mc_lmdb/LMDB
-export LMDB
+import mc_lmdb/objects/LMDBObject
+export LMDBObject.LMDB
 
 #Include the LMDB headers and compile the relevant source files.
 const currentFolder = currentSourcePath().substr(0, currentSourcePath().len - 12)
