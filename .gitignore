@@ -1,0 +1,12 @@
+#Binary files from LMDB.
+*.o
+*.lo
+*.so
+*.a
+
+#Binary files from the Test suite.
+Test.out
+Test.exe
+
+#DBs from the tests.
+tests/db
