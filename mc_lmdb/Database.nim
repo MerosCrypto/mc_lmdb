@@ -3,7 +3,8 @@ import Environment
 import Value
 import Transaction
 
-type Database* = cuint
+import objects/DatabaseObject
+export Database
 
 {.push header: "lmdb.h".}
 proc c_mdb_open(

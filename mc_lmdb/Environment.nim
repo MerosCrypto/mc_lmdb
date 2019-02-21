@@ -1,8 +1,7 @@
-import Mode
+import objects/ModeObject
 
-type
-    CEnvironment {.header: "lmdb.h", importc: "MDB_env".} = object
-    Environment* = ptr CEnvironment
+import objects/EnvironmentObject
+export Environment
 
 {.push header: "lmdb.h".}
 proc c_mdb_env_create(

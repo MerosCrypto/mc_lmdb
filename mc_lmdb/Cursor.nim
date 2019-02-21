@@ -2,29 +2,8 @@ import Value
 import Transaction
 import Database
 
-type
-    CCursor {.header: "lmdb.h", importc: "MDB_cursor".} = object
-    Cursor* = ptr CCursor
-
-    CursorOperation = enum
-        First
-        FirstDup
-        GetBoth
-        GetBothRange
-        GetCurrent
-        GetMultiple
-        Last
-        LastDup
-        Next
-        NextDup
-        NextMultiple
-        NextNoDup
-        Prev
-        PrevDup
-        PrevNoDup
-        Set
-        SetKey
-        SetRange
+import objects/CursorObject
+export Cursor
 
 {.push header: "lmdb.h".}
 proc c_mdb_cursor_open(

@@ -1,1 +1,0 @@
-type Mode* = uint16

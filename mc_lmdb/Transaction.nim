@@ -4,13 +4,11 @@ import Error
 import Environment
 
 #LMDB object file.
-import LMDB
+import objects/LMDBObject
 
-type
-    #C struct.
-    CTransaction {.header: "lmdb.h", importc: "MDB_txn".} = object
-    #Pointer.
-    Transaction* = ptr CTransaction
+#transaction object file.
+import objects/TransactionObject
+export Transaction
 
 #Transaction flags.
 const ReadOnly: cuint = 0x20000
