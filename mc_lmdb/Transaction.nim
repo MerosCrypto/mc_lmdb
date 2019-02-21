@@ -7,7 +7,7 @@ import Environment
 #LMDB object.
 import objects/LMDBObject
 
-#transaction object.
+#transaction object/flags.
 import objects/TransactionObject
 export TransactionObject.Transaction
 export TransactionObject.TransactionFlags

@@ -4,7 +4,7 @@ import Error
 #Mode object (there is no wrapper file).
 import objects/ModeObject
 
-#Environment object.
+#Environment object/flags.
 import objects/EnvironmentObject
 export EnvironmentObject.Environment
 export EnvironmentObject.EnvironmentFlags
