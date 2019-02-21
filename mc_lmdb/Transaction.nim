@@ -1,17 +1,17 @@
-#Wrapper files.
+#Error lib.
 import Error
 
+#Environment wrapper.
 import Environment
 
-#LMDB object file.
+#LMDB object.
 import objects/LMDBObject
 
-#transaction object file.
+#transaction object.
 import objects/TransactionObject
 export TransactionObject.Transaction
-
-#Transaction flags.
-const ReadOnly: cuint = 0x20000
+export TransactionObject.TransactionFlags
+export TransactionObject.or
 
 #C procs.
 {.push header: "lmdb.h".}
@@ -25,39 +25,28 @@ proc c_mdb_txn_begin(
 proc c_mdb_txn_commit(
     tx: Transaction
 ): cint {.importc: "mdb_txn_commit".}
-
-proc c_mdb_txn_abort(
-    tx: Transaction
-) {.importc: "mdb_txn_abort".}
 {.pop.}
 
 #Constructor.
-proc newTransaction*(lmdb: LMDB, readOnly: bool = false): Transaction =
+proc newTransaction*(
+    lmdb: LMDB,
+    flags: uint = 0
+): Transaction =
     #Call the C proc.
     var err: cint = c_mdb_txn_begin(
         lmdb.env,
         nil,
-        if readOnly: ReadOnly else: 0,
+        cuint(flags),
         addr result
     )
 
-    #If there was an error, raise it.
-    if err != 0:
-        raise err.toError()
+    #Check the error code.
+    err.check()
 
 #Save a TX to disk.
 proc commit*(tx: Transaction) =
     #Commit the TX.
     var err: cint = c_mdb_txn_commit(tx)
 
-    #If there was an error, raise it.
-    if err != 0:
-        raise err.toError()
-
-#Cancel a TX.
-proc abort*(tx: Transaction) =
-    c_mdb_txn_abort(tx)
-
-#Free a TX.
-proc free*(tx: Transaction) =
-    dealloc(tx)
+    #Check the error code.
+    err.check()
