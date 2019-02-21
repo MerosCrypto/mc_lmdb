@@ -109,7 +109,7 @@ proc get*(
         #Create a Value of the key.
         key: Value = newValue(keyArg)
         #Create a Value for the value.
-        value: Value
+        value: Value = newValue()
 
     #Get the value.
     var err: cint = c_mdb_get(tx, lmdb.db, key, value)

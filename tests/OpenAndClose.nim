@@ -4,6 +4,6 @@
 import ../mc_lmdb
 
 #Open a DB.
-var lmdb: LMDB = newLMDB("./test0")
+var lmdb: LMDB = newLMDB("./db/test0")
 #Close it.
 lmdb.close()
