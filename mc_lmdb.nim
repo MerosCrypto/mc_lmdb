@@ -1,10 +1,26 @@
-#Import the wrapper files.
-import mc_lmdb/Environment
+#Mode object.
+import mc_lmdb/objects/ModeObject
+export ModeObject.Mode
 
-import mc_lmdb/Value
-import mc_lmdb/Transaction
+#Wrapper files.
+import mc_lmdb/Environment
 import mc_lmdb/Database
-import mc_lmdb/Cursor
+
+#Provide manual access to the Environment constructor/flags.
+export Environment.newEnvironment
+export Environment.EnvironmentFlags
+export Environment.or
+
+#Provide manual access to the Database constructor/flags.
+export Database.newDatabase
+export Database.DatabaseFlags
+export Database.PutFlags
+export Database.or
+
+#Export get, put, and delete.
+export Database.get
+export Database.put
+export Database.delete
 
 #LMDB object.
 import mc_lmdb/objects/LMDBObject
@@ -17,17 +33,16 @@ const currentFolder = currentSourcePath().substr(0, currentSourcePath().len - 12
 {.compile: currentFolder & "LMDB/midl.c".}
 
 #Opens a database at the path, creating one if it doesn't already exist.
-proc newLMDB*(path: string): LMDB =
-    discard
+proc newLMDB*(
+    path: string,
+    name: string
+): LMDB =
+    result = LMDB(
+        env: newEnvironment(path)
+    )
+    result.newDatabase(name)
 
-#Gets a value from the Database.
-proc get*(lmdb: LMDB, key: string): string =
-    discard
-
-#Puts a value into the Database.
-proc put*(lmdb: LMDB, key: string, value: string) =
-    discard
-
-#Deletes a value from the Database.
-proc delete*(lmdb: LMDB, key: string) =
-    discard
+#Closes an Environment and Database.
+proc close*(lmdb: LMDB) =
+    Database.close(lmdb)
+    lmdb.env.close()
