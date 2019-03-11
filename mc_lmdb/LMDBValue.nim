@@ -18,5 +18,8 @@ proc newValue*(valueArg: string = ""): Value =
 
 #Converts a Value to a string.
 converter toString*(value: Value): string =
+    if value.mv_size == 0:
+        return ""
+
     result = newString(value.mv_size)
     copyMem(addr result[0], value.mv_data, result.len)
