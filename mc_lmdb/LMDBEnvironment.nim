@@ -25,7 +25,7 @@ proc c_mdb_env_open(
 
 proc c_mdb_env_set_mapsize(
     env: Environment,
-    size: cint
+    size: int64
 ): cint {.importc: "mdb_env_set_mapsize".}
 
 proc c_mdb_env_close(
@@ -62,7 +62,7 @@ proc setMapSize*(
     #Open the Environment.
     var err: cint = c_mdb_env_set_mapsize(
         env,
-        cint(size)
+        size
     )
     #Check the error code.
     err.check()
