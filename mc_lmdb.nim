@@ -38,15 +38,23 @@ import mc_lmdb/objects/LMDBObject
 export LMDBObject.LMDB
 
 #Opens a database at the path, creating one if it doesn't already exist, with a max size of size (default 1 GB).
-proc newLMDB*(path: string, size: int64): LMDB =
+proc newLMDB*(
+    path: string,
+    size: int64,
+    readers: int = 126
+): LMDB =
     result = LMDB(
-        env: newEnvironment(path)
+        env: newEnvironment()
     )
     result.env.setMapSize(size)
+    result.env.setMaxReaders(readers)
+    result.env.open(path)
     result.newDatabase()
 
 #Closes an Environment and Database.
-proc close*(lmdb: LMDB) =
+proc close*(
+    lmdb: LMDB
+) =
     #Use the file name to prevent this function from calling itself.
     LMDBDatabase.close(lmdb)
     lmdb.env.close()
