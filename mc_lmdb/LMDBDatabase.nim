@@ -92,11 +92,10 @@ proc put*(
 
     #Get the value.
     var err: cint = c_mdb_put(tx, lmdb.db, key, value, cuint(flags))
-    #Check the error code.
-    err.check()
-
     #Commit the Transaction.
     tx.commit()
+    #Check the error code.
+    err.check()
 
 #Get a value from the Database.
 proc get*(
@@ -113,11 +112,10 @@ proc get*(
 
     #Get the value.
     var err: cint = c_mdb_get(tx, lmdb.db, key, value)
-    #Check the error code.
-    err.check()
-
     #Commit the Transaction.
     tx.commit()
+    #Check the error code.
+    err.check()
 
     #Return the value.
     result = value
@@ -135,11 +133,10 @@ proc delete*(
 
     #Get the value.
     var err: cint = c_mdb_del(tx, lmdb.db, key, nil)
-    #Check the error code.
-    err.check()
-
     #Commit the Transaction.
     tx.commit()
+    #Check the error code.
+    err.check()
 
 #Close the DB.
 proc close*(
