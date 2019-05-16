@@ -30,7 +30,7 @@ proc c_mdb_txn_commit(
 #Constructor.
 proc newTransaction*(
     lmdb: LMDB,
-    flags: uint = 0
+    flags: TransactionFlags = TransactionFlags.None
 ): Transaction =
     #Call the C proc.
     var err: cint = c_mdb_txn_begin(
@@ -44,7 +44,9 @@ proc newTransaction*(
     err.check()
 
 #Save a TX to disk.
-proc commit*(tx: Transaction) =
+proc commit*(
+    tx: Transaction
+) =
     #Commit the TX.
     var err: cint = c_mdb_txn_commit(tx)
 

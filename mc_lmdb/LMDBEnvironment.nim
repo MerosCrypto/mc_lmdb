@@ -36,7 +36,7 @@ proc c_mdb_env_close(
 #Constructor.
 proc newEnvironment*(
     path: string,
-    flags: uint = EnvironmentFlags.NoSubDir or EnvironmentFlags.NoTLS or EnvironmentFlags.NoReadAhead,
+    flags: EnvironmentFlags = EnvironmentFlags.NoSubDir or EnvironmentFlags.NoTLS or EnvironmentFlags.NoReadAhead,
     mode: uint = 0o666
 ): Environment =
     #Create the Environment.
@@ -68,5 +68,7 @@ proc setMapSize*(
     err.check()
 
 #Close an Environment.
-proc close*(env: Environment) =
+proc close*(
+    env: Environment
+) =
     c_mdb_env_close(env)

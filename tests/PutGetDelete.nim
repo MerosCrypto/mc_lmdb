@@ -4,7 +4,7 @@
 import ../mc_lmdb
 
 #Open a DB.
-var lmdb: LMDB = newLMDB("./db/test1")
+var lmdb: LMDB = newLMDB("./db/test1", 1024000)
 
 #Put in a value.
 lmdb.put("key", "val")

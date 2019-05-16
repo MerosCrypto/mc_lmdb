@@ -6,11 +6,12 @@ type
     Transaction* = ptr CTransaction
 
     #Flags.
-    TransactionFlags* = enum
+    TransactionFlags* {.pure.} = enum
+        None     = 0x00
         ReadOnly = 0x20000
 
-proc `or`*(lhs: TransactionFlags, rhs: TransactionFlags): uint =
-    uint(lhs) or uint(rhs)
-
-proc `or`*(lhs: uint, rhs: TransactionFlags): uint =
-    lhs or uint(rhs)
+proc `or`*(
+    lhs: TransactionFlags,
+    rhs: TransactionFlags
+): TransactionFlags =
+    TransactionFlags(uint(lhs) or uint(rhs))

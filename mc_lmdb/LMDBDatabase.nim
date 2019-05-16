@@ -57,7 +57,7 @@ proc c_mdb_close(
 #Constructor.
 proc newDatabase*(
     lmdb: LMDB,
-    flags: uint = uint(DatabaseFlags.Create),
+    flags: DatabaseFlags = DatabaseFlags.Create,
 ) =
     var
         #Create a TX to open the DB with.
@@ -80,7 +80,7 @@ proc put*(
     lmdb: LMDB,
     keyArg: string,
     valueArg: string,
-    flags: uint = 0
+    flags: PutFlags = PutFlags.None
 ) =
     var
         #Create a TX to set the value with.
@@ -105,7 +105,7 @@ proc get*(
 ): string =
     var
         #Create a TX to grab the value with.
-        tx: Transaction = lmdb.newTransaction(uint(TransactionFlags.ReadOnly))
+        tx: Transaction = lmdb.newTransaction(TransactionFlags.ReadOnly)
         #Create a Value of the key.
         key: Value = newValue(keyArg)
         #Create a Value for the value.

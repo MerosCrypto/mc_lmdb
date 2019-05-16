@@ -3,7 +3,9 @@ import objects/LMDBValueObject
 export LMDBValueObject.Value
 
 #Constructor.
-proc newValue*(valueArg: string = ""): Value =
+proc newValue*(
+    valueArg: string = ""
+): Value =
     #Copy the argument.
     var value: string = valueArg
 
@@ -17,7 +19,9 @@ proc newValue*(valueArg: string = ""): Value =
         result.mv_data = addr value[0]
 
 #Converts a Value to a string.
-converter toString*(value: Value): string =
+converter toString*(
+    value: Value
+): string =
     if value.mv_size == 0:
         return ""
 

@@ -6,7 +6,8 @@ type
     Environment* = ptr CEnvironment
 
     #Flags.
-    EnvironmentFlags* = enum
+    EnvironmentFlags* {.pure.} = enum
+        None        = 0x00
         FixedMap    = 0x01
         NoSubDir    = 0x4000
         NoSync      = 0x10000
@@ -19,8 +20,8 @@ type
         NoReadAhead = 0x800000
         NoMemInit   = 0x1000000
 
-proc `or`*(lhs: EnvironmentFlags, rhs: EnvironmentFlags): uint =
-    uint(lhs) or uint(rhs)
-
-proc `or`*(lhs: uint, rhs: EnvironmentFlags): uint =
-    lhs or uint(rhs)
+proc `or`*(
+    lhs: EnvironmentFlags,
+    rhs: EnvironmentFlags
+): EnvironmentFlags =
+    EnvironmentFlags(uint(lhs) or uint(rhs))
