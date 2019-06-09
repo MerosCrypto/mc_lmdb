@@ -17,6 +17,9 @@ export LMDBDatabaseObject.DatabaseFlags
 export LMDBDatabaseObject.PutFlags
 export LMDBDatabaseObject.or
 
+#Table standard lib.
+import tables
+
 #C procs.
 {.push header: "lmdb.h".}
 proc c_mdb_open(
@@ -57,17 +60,24 @@ proc c_mdb_close(
 #Constructor.
 proc newDatabase*(
     lmdb: LMDB,
+    nameArg: string,
     flags: DatabaseFlags = DatabaseFlags.Create,
 ) =
+    #Extract the name argument.
+    var name: string = nameArg
+
+    #Allocate the DBs.
+    lmdb.dbs[name] = cast[ptr Database](alloc0(sizeof(Database)))
+
     var
         #Create a TX to open the DB with.
         tx: Transaction = lmdb.newTransaction()
         #Open the Database.
         err: cint = c_mdb_open(
             tx,
-            nil,
+            if name == "": nil else: (addr name[0]),
             cuint(flags),
-            addr lmdb.db
+            lmdb.dbs[name]
         )
     #Check the error code.
     err.check()
@@ -78,6 +88,7 @@ proc newDatabase*(
 #Put a value into the Database.
 proc put*(
     lmdb: LMDB,
+    name: string,
     keyArg: string,
     valueArg: string,
     flags: PutFlags = PutFlags.None
@@ -91,7 +102,7 @@ proc put*(
         value: Value = newValue(valueArg)
 
     #Get the value.
-    var err: cint = c_mdb_put(tx, lmdb.db, key, value, cuint(flags))
+    var err: cint = c_mdb_put(tx, lmdb.dbs[name][], key, value, cuint(flags))
     #Commit the Transaction.
     tx.commit()
     #Check the error code.
@@ -100,6 +111,7 @@ proc put*(
 #Get a value from the Database.
 proc get*(
     lmdb: LMDB,
+    name: string,
     keyArg: string
 ): string =
     var
@@ -111,7 +123,7 @@ proc get*(
         value: Value = newValue()
 
     #Get the value.
-    var err: cint = c_mdb_get(tx, lmdb.db, key, value)
+    var err: cint = c_mdb_get(tx, lmdb.dbs[name][], key, value)
     #Commit the Transaction.
     tx.commit()
     #Check the error code.
@@ -123,6 +135,7 @@ proc get*(
 #Deletes a value from the Database.
 proc delete*(
     lmdb: LMDB,
+    name: string,
     keyArg: string
 ) =
     var
@@ -132,7 +145,7 @@ proc delete*(
         key: Value = newValue(keyArg)
 
     #Get the value.
-    var err: cint = c_mdb_del(tx, lmdb.db, key, nil)
+    var err: cint = c_mdb_del(tx, lmdb.dbs[name][], key, nil)
     #Commit the Transaction.
     tx.commit()
     #Check the error code.
@@ -142,4 +155,5 @@ proc delete*(
 proc close*(
     lmdb: LMDB
 ) =
-    c_mdb_close(lmdb.env, lmdb.db)
+    for key in lmdb.dbs.keys():
+        c_mdb_close(lmdb.env, lmdb.dbs[key][])

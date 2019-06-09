@@ -4,21 +4,22 @@
 import ../mc_lmdb
 
 #Open a DB.
-var lmdb: LMDB = newLMDB("./db/test1", 1024000)
+var lmdb: LMDB = newLMDB("./db/PutGetDelete", 1024000)
+lmdb.open("")
 
 #Put in a value.
-lmdb.put("key", "val")
+lmdb.put("", "key", "val")
 #Get the value back.
-if lmdb.get("key") != "val":
-    raise newException(LMDBError, "Put \"val\" but got \"" & lmdb.get("key") & "\".")
+if lmdb.get("", "key") != "val":
+    raise newException(LMDBError, "Put \"val\" but got \"" & lmdb.get("", "key") & "\".")
 
 #Delete the value.
-lmdb.delete("key")
+lmdb.delete("", "key")
 
 #Make sure getting the value throws.
 var threw: bool = false
 try:
-    discard lmdb.get("key")
+    discard lmdb.get("", "key")
 except LMDBError:
     threw = true
 if not threw:

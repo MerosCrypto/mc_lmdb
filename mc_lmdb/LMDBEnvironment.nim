@@ -23,6 +23,11 @@ proc c_mdb_env_open(
     mode: Mode
 ): cint {.importc: "mdb_env_open".}
 
+proc c_mdb_env_set_maxdbs(
+    env: Environment,
+    quantity: cuint
+): cint {.importc: "mdb_env_set_maxdbs".}
+
 proc c_mdb_env_set_mapsize(
     env: Environment,
     size: int64
@@ -45,12 +50,23 @@ proc newEnvironment*(): Environment =
     #Check the error code.
     err.check()
 
+#Set the max DBs.
+proc setMaxDBs*(
+    env: Environment,
+    quantity: int
+) =
+    var err: cint = c_mdb_env_set_maxdbs(
+        env,
+        cuint(quantity)
+    )
+    #Check the error code.
+    err.check()
+
 #Set the map size.
 proc setMapSize*(
     env: Environment,
     size: int64
 ) =
-    #Open the Environment.
     var err: cint = c_mdb_env_set_mapsize(
         env,
         size
@@ -62,7 +78,6 @@ proc setMaxReaders*(
     env: Environment,
     readers: int
 ) =
-    #Open the Environment.
     var err: cint = c_mdb_env_set_maxreaders(
         env,
         cuint(readers)

@@ -2,7 +2,10 @@
 import LMDBEnvironmentObject
 import LMDBDatabaseObject
 
-#Define a type that includes an environment and a database.
-type LMDB* = ref object of RootObj
+#Tables standard lib.
+import tables
+
+#Define a type that includes an environment and databases.
+type LMDB* = ref object
     env*: Environment
-    db*: Database
+    dbs*: Table[string, ptr Database]

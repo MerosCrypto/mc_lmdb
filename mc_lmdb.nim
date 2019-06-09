@@ -37,19 +37,31 @@ export LMDBDatabase.delete
 import mc_lmdb/objects/LMDBObject
 export LMDBObject.LMDB
 
-#Opens a database at the path, creating one if it doesn't already exist, with a max size of size (default 1 GB).
+#Tables lib.
+import tables
+
+#Opens an environment at the path, creating one if it doesn't already exist, with a max size of size.
 proc newLMDB*(
     path: string,
     size: int64,
+    quantity: int = 1,
     readers: int = 126
 ): LMDB =
     result = LMDB(
-        env: newEnvironment()
+        env: newEnvironment(),
+        dbs: initTable[string, ptr Database]()
     )
+    result.env.setMaxDBs(quantity)
     result.env.setMapSize(size)
     result.env.setMaxReaders(readers)
     result.env.open(path)
-    result.newDatabase()
+
+#Open a DB.
+proc open*(
+    lmdb: LMDB,
+    name: string = ""
+) =
+    lmdb.newDatabase(name)
 
 #Closes an Environment and Database.
 proc close*(
