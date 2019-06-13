@@ -1,4 +1,4 @@
-version     = "1.0.0"
+version     = "1.1.0"
 author      = "Luke Parker"
 description = "A Nim Wrapper for LMDB."
 license     = "MIT"
