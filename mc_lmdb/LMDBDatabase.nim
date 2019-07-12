@@ -101,12 +101,39 @@ proc put*(
         #Create a Value of the value.
         value: Value = newValue(valueArg)
 
-    #Get the value.
+    #Set the value.
     var err: cint = c_mdb_put(tx, lmdb.dbs[name][], key, value, cuint(flags))
-    #Commit the Transaction.
-    tx.commit()
     #Check the error code.
     err.check()
+    #Commit the Transaction.
+    tx.commit()
+
+#Put a value into the Database.
+proc put*(
+    lmdb: LMDB,
+    name: string,
+    values: seq[tuple[key: string, value: string]],
+    flags: PutFlags = PutFlags.None
+) =
+    var
+        #Create a TX to set the values with.
+        tx: Transaction = lmdb.newTransaction()
+        #Value for the key.
+        key: Value
+        #Value for the value.
+        value: Value
+
+    for val in values:
+        key = newValue(val.key)
+        value = newValue(val.value)
+
+        #Set the value.
+        var err: cint = c_mdb_put(tx, lmdb.dbs[name][], key, value, cuint(flags))
+        #Check the error code.
+        err.check()
+
+    #Commit the Transaction.
+    tx.commit()
 
 #Get a value from the Database.
 proc get*(
