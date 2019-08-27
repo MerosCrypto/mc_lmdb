@@ -6,17 +6,15 @@ export LMDBValueObject.Value
 proc newValue*(
     valueArg: string = ""
 ): Value =
-    #Copy the argument.
+    #Extract the argument.
     var value: string = valueArg
 
-    #Allocate the Value.
-    result = cast[Value](alloc0(sizeof(CValue)))
-
     #If we're setting the Value to a string, not just allocating it...
-    if valueArg.len > 0:
+    if value.len > 0:
         #Set the size and data fielda.
         result.mv_size = cuint(value.len)
-        result.mv_data = addr value[0]
+        result.mv_data = cast[ptr char](alloc0(value.len))
+        copyMem(result.mv_data, addr value[0], value.len)
 
 #Converts a Value to a string.
 converter toString*(

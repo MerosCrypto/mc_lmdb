@@ -32,23 +32,23 @@ proc c_mdb_open(
 proc c_mdb_put(
     tx: Transaction,
     db: Database,
-    key: Value,
-    val: Value,
+    key: ptr Value,
+    val: ptr Value,
     flags: cuint
 ): cint {.importc: "mdb_put".}
 
 proc c_mdb_get(
     tx: Transaction,
     db: Database,
-    key: Value,
-    val: Value
+    key: ptr Value,
+    val: ptr Value
 ): cint {.importc: "mdb_get".}
 
 proc c_mdb_del(
     tx: Transaction,
     db: Database,
-    key: Value,
-    val: Value
+    key: ptr Value,
+    val: ptr Value
 ): cint {.importc: "mdb_del".}
 
 proc c_mdb_close(
@@ -102,7 +102,7 @@ proc put*(
         value: Value = newValue(valueArg)
 
     #Set the value.
-    var err: cint = c_mdb_put(tx, lmdb.dbs[name][], key, value, cuint(flags))
+    var err: cint = c_mdb_put(tx, lmdb.dbs[name][], addr key, addr value, cuint(flags))
     #Check the error code.
     err.check()
     #Commit the Transaction.
@@ -128,7 +128,9 @@ proc put*(
         value = newValue(val.value)
 
         #Set the value.
-        var err: cint = c_mdb_put(tx, lmdb.dbs[name][], key, value, cuint(flags))
+        if val.key != key:
+            doAssert(false, "Value has a different value than the string.")
+        var err: cint = c_mdb_put(tx, lmdb.dbs[name][], addr key, addr value, cuint(flags))
         #Check the error code.
         err.check()
 
@@ -150,7 +152,7 @@ proc get*(
         value: Value = newValue()
 
     #Get the value.
-    var err: cint = c_mdb_get(tx, lmdb.dbs[name][], key, value)
+    var err: cint = c_mdb_get(tx, lmdb.dbs[name][], addr key, addr value)
     #Commit the Transaction.
     tx.commit()
     #Check the error code.
@@ -172,7 +174,7 @@ proc delete*(
         key: Value = newValue(keyArg)
 
     #Get the value.
-    var err: cint = c_mdb_del(tx, lmdb.dbs[name][], key, nil)
+    var err: cint = c_mdb_del(tx, lmdb.dbs[name][], addr key, nil)
     #Commit the Transaction.
     tx.commit()
     #Check the error code.

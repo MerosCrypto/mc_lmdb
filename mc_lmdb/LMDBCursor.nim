@@ -14,15 +14,15 @@ proc c_mdb_cursor_open(
 
 proc c_mdb_cursor_get(
     cursor: Cursor,
-    key: Value,
-    data: Value,
+    key: ptr Value,
+    data: ptr Value,
     op: CursorOperation
 ): cint {.importc: "mdb_cursor_get".}
 
 proc c_mdb_cursor_put(
     cursor: Cursor,
-    key: Value,
-    data: Value,
+    key: ptr Value,
+    data: ptr Value,
     flags: cuint
 ): cint {.importc: "mdb_cursor_put".}
 
