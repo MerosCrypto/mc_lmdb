@@ -2,4 +2,8 @@
 
 A Nim Wrapper for LMDB.
 
-Before using this lib, you must run `make` inside the `LMDB/` folder.
+## Installation
+
+```
+nimble install https://github.com/MerosCrypto/mc_lmdb/
+```

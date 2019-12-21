@@ -1,3 +1,5 @@
+import os
+
 version     = "1.1.0"
 author      = "Luke Parker"
 description = "A Nim Wrapper for LMDB."
@@ -13,3 +15,12 @@ installDirs = @[
 ]
 
 requires "nim >= 0.19.4"
+
+after install:
+    let makeExe: string = system.findExe("make")
+    if makeExe == "":
+        echo "Failed to find execuable `make`."
+        quit(1)
+
+    withDir projectDir() / "LMDB":
+        exec makeExe
