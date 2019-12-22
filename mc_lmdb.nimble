@@ -16,7 +16,7 @@ installDirs = @[
 
 requires "nim >= 0.19.4"
 
-after install:
+before install:
     let makeExe: string = system.findExe("make")
     if makeExe == "":
         echo "Failed to find execuable `make`."
