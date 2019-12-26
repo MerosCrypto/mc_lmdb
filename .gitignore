@@ -3,10 +3,13 @@
 *.lo
 *.so
 *.a
+*.obj
+*.lib
 
 #Binary files from the Test suite.
 Test.out
 Test.exe
 
 #DBs from the tests.
-tests/db
+db/*
+!db/.folder

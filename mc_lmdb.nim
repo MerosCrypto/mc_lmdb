@@ -3,7 +3,11 @@ const lmdbFolder = currentSourcePath().substr(0, currentSourcePath().len - 12) &
 {.passC: "-I " & lmdbFolder.}
 
 #Link with the static library.
-{.passL: lmdbFolder & "liblmdb.a".}
+when defined(Windows):
+    {.passL: "advapi32.lib".}
+    {.passL: lmdbFolder & "lmdb.lib".}
+else:
+    {.passL: lmdbFolder & "liblmdb.a".}
 
 #Mode object.
 import mc_lmdb/objects/LMDBModeObject
