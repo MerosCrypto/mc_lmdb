@@ -1,6 +1,6 @@
 # mc_lmdb
 
-A Nim Wrapper for LMDB.
+A simplified and partial Nim Wrapper for LMDB.
 
 ## Installation
 

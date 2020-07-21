@@ -1,4 +1,3 @@
-#Binary files from LMDB.
 *.o
 *.lo
 *.so
@@ -6,10 +5,8 @@
 *.obj
 *.lib
 
-#Binary files from the Test suite.
 Test.out
 Test.exe
 
-#DBs from the tests.
 db/*
 !db/.folder

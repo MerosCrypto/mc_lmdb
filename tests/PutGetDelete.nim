@@ -1,29 +1,25 @@
-#Puts in an Entry, Gets the Entry, and then Deletes the Entry.
-
-#LMDB lib.
 import ../mc_lmdb
 
-#Open a DB.
 var lmdb: LMDB = newLMDB("./db/PutGetDelete", 1024000)
 lmdb.open("")
 
-#Put in a value.
-lmdb.put("", "key", "val")
-#Get the value back.
+var tx: Transaction = lmdb.newTransaction()
+lmdb.put(tx, "", "key", "val")
+tx.commit()
+
 if lmdb.get("", "key") != "val":
-    raise newException(LMDBError, "Put \"val\" but got \"" & lmdb.get("", "key") & "\".")
+  raise newException(LMDBError, "Put \"val\" but got \"" & lmdb.get("", "key") & "\".")
 
-#Delete the value.
-lmdb.delete("", "key")
+tx = lmdb.newTransaction()
+lmdb.delete(tx, "", "key")
+tx.commit()
 
-#Make sure getting the value throws.
 var threw: bool = false
 try:
-    discard lmdb.get("", "key")
+  discard lmdb.get("", "key")
 except LMDBError:
-    threw = true
+  threw = true
 if not threw:
-    raise newException(LMDBError, "Retreiving a supposedly deleted value didn't throw.")
+  raise newException(LMDBError, "Retreiving a supposedly deleted value didn't throw.")
 
-#Close it.
 lmdb.close()
