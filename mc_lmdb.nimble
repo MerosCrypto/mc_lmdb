@@ -1,6 +1,6 @@
 import os
 
-version     = "2.0.1"
+version     = "2.0.2"
 author      = "Luke Parker"
 description = "A simplified and partial Nim Wrapper for LMDB."
 license     = "MIT"
@@ -28,7 +28,7 @@ before install:
       echo "Failed to find execuable `lib`."
       quit(1)
 
-    withDir thisDir() / "LMDB":
+    withDir thisDir() / "LMDB" / "libraries" / "liblmdb":
       exec clExe & " /c mdb.c"
       exec clExe & " /c midl.c"
       exec libExe & " mdb.obj midl.obj /OUT:lmdb.obj"
@@ -38,5 +38,5 @@ before install:
         echo "Failed to find execuable `make`."
         quit(1)
 
-      withDir thisDir() / "LMDB":
+      withDir thisDir() / "LMDB" / "libraries" / "liblmdb":
         exec makeExe

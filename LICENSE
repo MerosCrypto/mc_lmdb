@@ -1,7 +1,3 @@
-The LMDB source code is licensed under the OpenLDAP Public License, Copyright 2011-2019 Howard Chu, Symas Corp. A copy of this license can be found in the `LMDB/` folder.
-
-The Nim Wrapper around LMDB is released under the following license:
-
 The MIT License (MIT)
 
 Copyright (c) 2018-2020 Luke Parker

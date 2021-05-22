@@ -1,4 +1,4 @@
-const lmdbFolder = currentSourcePath().substr(0, currentSourcePath().len - 12) & "LMDB/"
+const lmdbFolder = currentSourcePath().substr(0, currentSourcePath().len - 12) & "LMDB/libraries/liblmdb/"
 {.passC: "-I " & lmdbFolder.}
 
 when defined(Windows):
